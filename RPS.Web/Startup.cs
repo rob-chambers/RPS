@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using RPS.Web.Data;
+using RPS.Web.Models;
 
 namespace RPS.Web
 {
@@ -15,6 +18,7 @@ namespace RPS.Web
                 .AddJsonFile("appsettings.json", false, true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", true)
                 .AddEnvironmentVariables();
+
             Configuration = builder.Build();
         }
 
@@ -25,6 +29,10 @@ namespace RPS.Web
         {
             // Add framework services.
             services.AddMvc();
+
+            var connectionString = Configuration.GetValue<string>("ConnectionString");
+
+            services.AddDbContext<RpsContext>(options => options.UseSqlServer(connectionString));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -43,6 +51,7 @@ namespace RPS.Web
                 app.UseExceptionHandler("/Home/Error");
             }
 
+            app.SeedDatabase();
             app.UseStaticFiles();
 
             app.UseMvc(routes =>
