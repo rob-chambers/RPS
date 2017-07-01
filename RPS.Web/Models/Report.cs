@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc.ViewFeatures.Internal;
 
 namespace RPS.Web.Models
 {
@@ -21,6 +22,7 @@ namespace RPS.Web.Models
 
         public int? SectorId { get; set; }
 
+        [DisplayFormat(NullDisplayText = "None")]
         public Sector Sector { get; set; }
 
         [Required]

@@ -2,7 +2,7 @@
 
 namespace RPS.Web.Models
 {
-    public sealed class RpsContext : DbContext
+    public sealed class RpsContext : DbContext, IRpsContext
     {
         private static bool _created;
 

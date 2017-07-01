@@ -31,8 +31,10 @@ namespace RPS.Web
             services.AddMvc();
 
             var connectionString = Configuration.GetValue<string>("ConnectionString");
-
             services.AddDbContext<RpsContext>(options => options.UseSqlServer(connectionString));
+
+            services.AddSingleton<IReportRepository, ReportRepository>();
+            services.AddSingleton<IRpsContext, RpsContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
